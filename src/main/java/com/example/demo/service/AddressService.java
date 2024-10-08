@@ -14,6 +14,7 @@ import com.example.demo.entity.Address;
 import com.example.demo.entity.Education;
 import com.example.demo.entity.Employee;
 import com.example.demo.exceptionclasses.NoActiveEmployeeFoundException;
+import com.example.demo.exceptionclasses.NoAddressesFoundException;
 import com.example.demo.exceptionclasses.NoEducationFoundException;
 import com.example.demo.responsestructure.ResponseStructure;
 import com.example.demo.service.exceptionclasses.NoAddressFoundException;
@@ -60,7 +61,8 @@ public class AddressService {
 		Employee e=op.get();
 		List<Address> addresses=dao.findAllAddress(e);
 		if(addresses.isEmpty())
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseStructure.builder().status(HttpStatus.NOT_FOUND.value()).message("No addresses found for this employee").body("The specified employee has not given his address..........").build());
+			throw NoAddressesFoundException.builder().message("no addresses for employee ").build();
+			//return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseStructure.builder().status(HttpStatus.NOT_FOUND.value()).message("No addresses found for this employee").body("The specified employee has not given his address..........").build());
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResponseStructure.builder().status(HttpStatus.CREATED.value()).message("address fetched successfully").body(addresses).build());
 
